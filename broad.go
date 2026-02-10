@@ -1,8 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"net"
 	"time"
+
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 func getIP() *net.UDPAddr {
@@ -45,7 +49,7 @@ func brodudp() {
 	}
 }
 
-func listenUDP(port string) {
+func listenUDP(port string, app *tview.Application, peerList *tview.List, input *tview.InputField, finput *tview.InputField) {
 	addr, err := net.ResolveUDPAddr("udp4", port)
 	if err != nil {
 		panic(err)
@@ -56,4 +60,73 @@ func listenUDP(port string) {
 	}
 	defer conn.Close()
 
+	// ipadd := make(chan string)
+	// go sendtcp(ipadd, finput)
+
+	buf := make([]byte, 1024)
+
+	peers := make(map[string]time.Time)
+
+	go func() {
+		for {
+			time.Sleep(500 * time.Millisecond)
+			now := time.Now()
+			for ip, t := range peers {
+				if now.Sub(t) > 2*time.Second {
+					delete(peers, ip)
+				}
+			}
+		}
+	}()
+	go func() {
+		// var ipconn string
+		// for {
+		// 	fmt.Println("Enter address to connect to :")
+		// 	fmt.Scanf("%s", &ipconn)
+		// 	if ipconn != "" {
+		// 		ipadd <- ipconn
+		// 		return
+		// 	}
+		// }
+		input.SetDoneFunc(func(key tcell.Key) {
+			if key == tcell.KeyEnter {
+				// text := input.GetText()
+				// peerList.AddItem("Selected "+text, "", 0, nil)
+				// ipadd <- text
+				app.SetFocus(finput)
+				// app.Stop()
+			}
+		})
+		finput.SetDoneFunc(func(key tcell.Key) {
+			if key == tcell.KeyEnter {
+				aadr := input.GetText()
+				path := finput.GetText()
+				go sendtcp(aadr, path)
+				input.SetText("")
+				finput.SetText("")
+				app.SetFocus(input)
+			}
+		})
+	}()
+	//go func() {
+	fmt.Println("Active peers:")
+	for {
+		n, _, err := conn.ReadFromUDP(buf)
+		if err != nil {
+			panic(err)
+		}
+		peers[string(buf[:n])] = time.Now()
+
+		// for k, _ := range peers {
+		// 	fmt.Println(" ", k)
+		// }
+		app.QueueUpdateDraw(func() {
+			peerList.Clear()
+			for k := range peers {
+				peerList.AddItem(k, "", 0, nil)
+			}
+		})
+
+	}
+	//}()
 }
