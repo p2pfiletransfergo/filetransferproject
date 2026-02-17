@@ -24,7 +24,7 @@ func main() {
 		input := tview.NewInputField().
 			SetLabel("Select peer: ")
 		finput := tview.NewInputField().
-			SetLabel("Select peer: ")
+			SetLabel("Enter File path: ")
 		layout := tview.NewFlex().
 			SetDirection(tview.FlexRow).
 			AddItem(peerList, 0, 1, false).
