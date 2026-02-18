@@ -72,7 +72,7 @@ func listenUDP(port string, app *tview.Application, peerList *tview.List, input 
 			time.Sleep(500 * time.Millisecond)
 			now := time.Now()
 			for ip, t := range peers {
-				if now.Sub(t) > 2*time.Second {
+				if float64(now.Sub(t)) > 2.1*float64(time.Second) {
 					delete(peers, ip)
 				}
 			}
