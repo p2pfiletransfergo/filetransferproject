@@ -1,0 +1,43 @@
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 230px;
+  background: rgba(20, 28, 40, 1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar h2 {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.sidebar button {
+  padding: 12px;
+  margin-bottom: 12px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(45, 60, 85, 1);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.sidebar button:hover {
+  background: rgba(70, 95, 140, 1);
+}
+
+/* Content area */
+
+.content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}

@@ -108,7 +108,7 @@ func listenUDP(port string, app *tview.Application, peerList *tview.List, input 
 			}
 		})
 	}()
-	//go func() {
+
 	fmt.Println("Active peers:")
 	for {
 		n, _, err := conn.ReadFromUDP(buf)
@@ -117,9 +117,6 @@ func listenUDP(port string, app *tview.Application, peerList *tview.List, input 
 		}
 		peers[string(buf[:n])] = time.Now()
 
-		// for k, _ := range peers {
-		// 	fmt.Println(" ", k)
-		// }
 		app.QueueUpdateDraw(func() {
 			peerList.Clear()
 			for k := range peers {
@@ -128,5 +125,5 @@ func listenUDP(port string, app *tview.Application, peerList *tview.List, input 
 		})
 
 	}
-	//}()
+
 }

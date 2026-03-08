@@ -31,8 +31,9 @@ func sendtcp(addr string, path string) {
 	p := file.Name()
 	p = filepath.Base(p)
 
+	
 	binary.Write(conn, binary.BigEndian, uint32(len(p)))
-	conn.Write([]byte(p))
+	conn.Write([]byte(p)) 
 	fileinfo, _ := file.Stat()
 	filesize := fileinfo.Size()
 	binary.Write(conn, binary.BigEndian, filesize)

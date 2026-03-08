@@ -1,0 +1,97 @@
+/* h2 {
+  margin-bottom: 20px;
+}
+
+
+
+.device-card {
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background: white;
+  transition: 0.2s;
+}
+
+.device-card:hover {
+  background: #eef1ff;
+}
+
+.device-card.selected {
+  background: #dfe5ff;
+  border-color: #6c7cff;
+}
+
+
+
+button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  background: #4a6cff;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #2e4be0;
+}
+
+button:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+
+
+
+#showfname {
+  margin-top: 10px;
+  color: #444;
+  font-size: 14px;
+} */
+
+
+.device-card {
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  background: rgba(35, 48, 70, 1);
+  transition: 0.2s;
+}
+
+.device-card:hover {
+  background: rgba(60, 80, 120, 1);
+}
+
+.device-card.selected {
+  background: rgba(80, 110, 170, 1);
+}
+
+button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(70, 120, 255, 1);
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: rgba(90, 140, 255, 1);
+}
+
+button:disabled {
+  background: gray;
+}
+
+#showfname {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ddd;
+}

@@ -1,30 +1,44 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"io"
 	"net"
 	"os"
+	"strconv"
 )
 
 func handleconn(conn net.Conn) {
 	defer conn.Close()
-	buf := make([]byte, 1024)
-	n, err := conn.Read(buf)
-	if err != nil {
-		panic(err)
+
+	var nameLen uint32
+	binary.Read(conn, binary.BigEndian, &nameLen)
+
+	nameBuf := make([]byte, nameLen)
+	io.ReadFull(conn, nameBuf)
+	filename := string(nameBuf)
+
+	var fileSize int64
+	binary.Read(conn, binary.BigEndian, &fileSize)
+	original := filename
+
+	for i := 0; ; i++ {
+
+		_, err := os.Stat("rec_" + filename)
+
+		if os.IsNotExist(err) {
+			break
+		}
+
+		filename = strconv.Itoa(i) + "_" + original
 	}
-	fmt.Println("recieved file name :", n, string(buf[:n]))
-	file, err := os.Create("rec_" + string(buf[:n]))
-	if err != nil {
-		panic(err)
-	}
+	file, _ := os.Create("rec_" + filename)
 	defer file.Close()
-	n1, err := io.Copy(file, conn)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Recieved bytes :", n1)
+
+	io.CopyN(file, conn, fileSize)
+
+	fmt.Println("Received:", filename)
 }
 func listentcp() {
 	ln, err := net.Listen("tcp", ":5050")
@@ -36,7 +50,6 @@ func listentcp() {
 	for {
 		conn, err := ln.Accept()
 		if err != nil {
-			//panic(err)
 			fmt.Println("connection closed")
 			return
 		}
