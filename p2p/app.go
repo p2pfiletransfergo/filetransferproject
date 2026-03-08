@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"io"
 	"net"
 	"os"
@@ -12,6 +11,8 @@ import (
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -216,5 +217,6 @@ func (a *App) Brodudp() {
 		p := getIP()
 		conn.Write([]byte(p.IP.String() + ":5050"))
 		time.Sleep(time.Second * 1)
+		runtime.EventsEmit(a.ctx, "ipadd", p.IP.String())
 	}
 }
